@@ -82,7 +82,7 @@ def winner(board, mark):
 def firstMove():
     return random.randint(1,2)
 
-# Function to determine if they want to play another game
+# Function to determine if they want to play another game. Returns true if they want to play again
 def replay():
     answer = ""
     while answer not in ["yes", "no", "y", "n"]:
@@ -108,6 +108,7 @@ def driver():
     printBoard(board)
     
     # Play the game
+    
     while game_over == False:
         # Player 1 turn
         move_checked = False
@@ -123,8 +124,14 @@ def driver():
         # Post Player 1 turn
         if winner(board, player1):
             print("Congrats, " + str(player1) + " has won the game!")
-            game_over = replay()
-            break
+            another_game = replay()
+            if another_game == True:
+                print("Starting a new game...")
+                driver()
+                break
+            else:
+                print("Thanks for playing Tic Tac Toe!")
+                break
         
         # Player 2 turn
         move_checked = False
@@ -140,25 +147,19 @@ def driver():
         # Post Player 2 turn
         if winner(board, player2):
             print("Congrats, " + str(player2) + " has won the game!")
-            game_over = replay()
-            break
-    
+            another_game = replay()
+            if another_game == True:
+                print("Starting a new game...")
+                driver()
+                break
+            else:
+                print("Thanks for playing Tic Tac Toe!")
+                break
 
     
-    '''
-    # Begin playing
-    move1 = playerInput()
-    placeMarker(board, player1, move1)
-    printBoard(board)
-    
-    # test move check
-    move2 = playerInput()
-    if moveCheck(board, move2):
-        placeMarker(board, player2, move2)
-    
-    # print board after move check
-    printBoard(board)
-    '''
+#  TO DO
+#  -Fix the while loop to better run through moves and determine end of game conditions
+#  -Fix who starts first
+#  Maybe a for i in range(1,10) and use mod2 to determine turns?
 
-#driver()
-#replay()
+driver()
