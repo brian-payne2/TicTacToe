@@ -102,6 +102,13 @@ def replay():
         else:
             print("Please enter yes (y) or no (n) to proceed.")
 
+# Function to determine if the game is a stalemate. Returns true if board is full
+def fullBoard(board):
+    if " " not in board:
+        return True
+    else:
+        return False
+            
 # Driver Function
 def driver():
     # Set up the game
@@ -126,9 +133,12 @@ def driver():
                 else:
                     print("\n***\nThat space is already occupied, please choose an open space.\n***\n")
         
-        # Post Player 1 turn
-        if winner(board, player1):
-            print("Congrats, " + str(player1) + " has won the game!")
+        # Evaluate conditions post Player 1 turn
+        if winner(board, player1) or fullBoard(board):
+            if winner(board, player1):
+                print("Congrats, " + str(player1) + " has won the game!")
+            else:
+                print("Stalemate!")
             another_game = replay()
             if another_game == True:
                 print("Starting a new game...")
@@ -149,12 +159,15 @@ def driver():
             else:
                 print("\n***\nThat space is already occupied, please choose an open space.\n***\n")
         
-        # Post Player 2 turn
-        if winner(board, player2):
-            print("Congrats, " + str(player2) + " has won the game!")
+        # Evaluate conditions post Player 2 turn
+        if winner(board, player2) or fullBoard(board):
+            if winner(board, player2):
+                print("Congrats, " + str(player2) + " has won the game!")
+            else:
+                print("Stalemate!")
             another_game = replay()
             if another_game == True:
-                print("Starting a new game...")
+                print("Starting a new game...\n")
                 driver()
                 break
             else:
