@@ -4,7 +4,7 @@ import random
 # Declare global variables
 player1 = "X"
 player2 = "O"
-
+first_move = ""
 
 # Clear the board for a new game. Returns blank board
 def newBoard():
@@ -64,23 +64,27 @@ def winner(board, mark):
             won = True
     if board[1] == mark:
         if board[4] == mark and board[7] == mark:
-            won == True
+            won = True
     if board[2] == mark:
         if board[4] == mark and board[6] == mark:
-            won == True
+            won = True
         if board[5] == mark and board[8] == mark:
-            won == True
+            won = True
     if board[3] == mark:
         if board[4] == mark and board[5] == mark:
-            won == True
+            won = True
     if board[6] == mark:
         if board[7] == mark and board[8] == mark:
-            won == True
+            won = True
+    
     return won
 
 # Function to determine who goes first
 def firstMove():
-    return random.randint(1,2)
+    if random.randint(1,2) == 1:
+        return "player1"
+    else:
+        return "player2"
 
 # Function to determine if they want to play another game. Returns true if they want to play again
 def replay():
@@ -103,23 +107,24 @@ def driver():
     # Set up the game
     game_over = False
     first_move = firstMove()
-    print("Player " + str(first_move) + " will go first")
+    print(str(first_move) + " (Mark: " + str(eval(first_move)) + ") will go first")
     board = newBoard()
     printBoard(board)
     
     # Play the game
-    
+    #if first_move == "player1" or "X" in board:
     while game_over == False:
         # Player 1 turn
         move_checked = False
-        while move_checked == False:
-            move = playerInput()
-            if moveCheck(board, move):
-                placeMarker(board, player1, move)
-                printBoard(board)
-                move_checked = True
-            else:
-                print("\n***\nThat space is already occupied, please choose an open space.\n***\n")
+        if first_move == "player1" or "O" in board:
+            while move_checked == False:
+                move = playerInput()
+                if moveCheck(board, move):
+                    placeMarker(board, player1, move)
+                    printBoard(board)
+                    move_checked = True
+                else:
+                    print("\n***\nThat space is already occupied, please choose an open space.\n***\n")
         
         # Post Player 1 turn
         if winner(board, player1):
@@ -156,10 +161,5 @@ def driver():
                 print("Thanks for playing Tic Tac Toe!")
                 break
 
-    
-#  TO DO
-#  -Fix the while loop to better run through moves and determine end of game conditions
-#  -Fix who starts first
-#  Maybe a for i in range(1,10) and use mod2 to determine turns?
-
+# Start the game
 driver()
